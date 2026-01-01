@@ -27,7 +27,7 @@
 ### 1. שכפול הפרויקט
 ```bash
 git clone <repository-url>
-cd HilAncore_bot
+cd HilAnchor_bot
 ```
 
 ### 2. יצירת סביבה וירטואלית
@@ -112,7 +112,7 @@ pyinstaller --onefile --icon=handshake.ico --name=HilAnchor run.py
 ## מבנה הפרויקט
 
 ```
-HilAncore_bot/
+HilAnchor_bot/
 ├── run.py                    # נקודת כניסה ראשית
 ├── handshake.ico            # אייקון הבוט
 ├── requirements.txt         # תלויות Python

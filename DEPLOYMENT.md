@@ -4,17 +4,17 @@
 
 ### 1. Create a new repository on GitHub
 1. Go to https://github.com/new
-2. Repository name: `HilAncore_bot` (or any name you prefer)
+2. Repository name: `HilAnchor_bot` (or any name you prefer)
 3. Choose **Private** (recommended - contains personal bot configuration)
 4. **DO NOT** initialize with README, .gitignore, or license (we already have them)
 5. Click "Create repository"
 
 ### 2. Push your code to GitHub
 ```bash
-cd c:\Users\hilak\HilAncore_bot
+cd c:\Users\hilak\HilAnchor_bot
 
 # Add the remote repository (replace YOUR_USERNAME with your GitHub username)
-git remote add origin https://github.com/YOUR_USERNAME/HilAncore_bot.git
+git remote add origin https://github.com/YOUR_USERNAME/HilAnchor_bot.git
 
 # Push to GitHub
 git branch -M main
@@ -38,8 +38,8 @@ git push -u origin main
 ssh user@your-server.com
 
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/HilAncore_bot.git
-cd HilAncore_bot
+git clone https://github.com/YOUR_USERNAME/HilAnchor_bot.git
+cd HilAnchor_bot
 ```
 
 #### 2. Install Python and dependencies
@@ -94,9 +94,9 @@ After=network.target
 [Service]
 Type=simple
 User=YOUR_USERNAME
-WorkingDirectory=/home/YOUR_USERNAME/HilAncore_bot
-Environment="PATH=/home/YOUR_USERNAME/HilAncore_bot/.venv/bin"
-ExecStart=/home/YOUR_USERNAME/HilAncore_bot/.venv/bin/python run.py
+WorkingDirectory=/home/YOUR_USERNAME/HilAnchor_bot
+Environment="PATH=/home/YOUR_USERNAME/HilAnchor_bot/.venv/bin"
+ExecStart=/home/YOUR_USERNAME/HilAnchor_bot/.venv/bin/python run.py
 Restart=always
 RestartSec=10
 
@@ -218,7 +218,7 @@ git commit -m "Description of changes"
 git push
 
 # On the server - pull and restart
-cd HilAncore_bot
+cd HilAnchor_bot
 git pull
 
 # If using systemd
@@ -269,7 +269,7 @@ pip install -r requirements.txt
 ### Permission errors
 ```bash
 # Make sure the user has permissions
-sudo chown -R YOUR_USERNAME:YOUR_USERNAME /home/YOUR_USERNAME/HilAncore_bot
+sudo chown -R YOUR_USERNAME:YOUR_USERNAME /home/YOUR_USERNAME/HilAnchor_bot
 ```
 
 ---
@@ -316,7 +316,7 @@ BACKUP_DIR="$HOME/hilanchor_backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 
 mkdir -p "$BACKUP_DIR"
-cd /home/YOUR_USERNAME/HilAncore_bot
+cd /home/YOUR_USERNAME/HilAnchor_bot
 
 tar -czf "$BACKUP_DIR/hilanchor_$DATE.tar.gz" \
     state.json \

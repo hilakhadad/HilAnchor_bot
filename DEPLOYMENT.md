@@ -1,5 +1,7 @@
 # Deployment Guide
 
+> **Note**: This guide is in English. For Hebrew documentation, see [README.md](README.md).
+
 ## Upload to GitHub
 
 ### 1. Create a new repository on GitHub

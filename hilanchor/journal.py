@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from .config import JOURNAL_PATH
+from . import messages as msg
 
 logger = logging.getLogger(__name__)
 
@@ -24,10 +25,10 @@ def read_journal() -> str:
     try:
         content = journal_file.read_text(encoding="utf-8")
         logger.info(f"📖 Read journal file ({len(content)} characters)")
-        return content if content.strip() else "היומן שלך ריק כרגע 📝"
+        return content if content.strip() else msg.JOURNAL_EMPTY
     except Exception as e:
         logger.error(f"❌ Error reading journal: {e}")
-        return f"שגיאה בקריאת היומן: {e}"
+        return msg.JOURNAL_ERROR_READ.format(error=e)
 
 
 def append_to_journal(text: str, include_timestamp: bool = True) -> bool:
@@ -70,13 +71,12 @@ def get_journal_summary() -> str:
         non_empty_lines = [line for line in lines if line.strip()]
         size_kb = journal_file.stat().st_size / 1024
 
-        return (
-            f"📊 סטטיסטיקת היומן:\n"
-            f"• {len(non_empty_lines)} שורות\n"
-            f"• {len(content)} תווים\n"
-            f"• {size_kb:.2f} KB\n"
-            f"• נתיב: {JOURNAL_PATH}"
+        return msg.journal_stats(
+            lines=len(non_empty_lines),
+            chars=len(content),
+            size_kb=size_kb,
+            path=JOURNAL_PATH
         )
     except Exception as e:
         logger.error(f"❌ Error getting journal summary: {e}")
-        return f"שגיאה בקבלת סטטיסטיקות: {e}"
+        return msg.JOURNAL_ERROR_STATS.format(error=e)

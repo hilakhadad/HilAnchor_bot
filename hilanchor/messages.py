@@ -247,3 +247,117 @@ BTN_CONTINUE = "להמשיך עוד קצת"
 BTN_CLOSE = "לסגור להיום"
 
 BTN_CONTINUE_10 = "עוד 10 דקות"
+
+
+# ============================================================================
+# AUTH MESSAGES - הודעות אבטחה
+# ============================================================================
+
+AUTH_UNAUTHORIZED_USER = "היי 🙂 זה בוט פרטי שנבנה לצרכים אישיים, אז הוא לא פעיל עבורך."
+AUTH_PRIVATE_BOT = "בוט פרטי 🙂"
+
+
+# ============================================================================
+# JOURNAL MESSAGES - הודעות יומן
+# ============================================================================
+
+JOURNAL_EMPTY = "היומן שלך ריק כרגע 📝"
+JOURNAL_ERROR_READ = "שגיאה בקריאת היומן: {error}"
+JOURNAL_ERROR_STATS = "שגיאה בקבלת סטטיסטיקות: {error}"
+
+JOURNAL_HEADER = "📓 יומן אישי:\n\n"
+JOURNAL_HEADER_PART = "📓 יומן אישי (חלק {current}/{total}):\n\n"
+
+JOURNAL_ADD_PROMPT = """✍️ כתבי את מה שאת רוצה להוסיף ליומן האישי שלך.
+הטקסט יישמר עם חותמת זמן."""
+
+JOURNAL_ADD_SUCCESS = "✅ הטקסט נוסף ליומן האישי שלך!"
+JOURNAL_ADD_ERROR = "❌ אופס, הייתה בעיה בשמירת הטקסט ליומן."
+
+def journal_stats(lines: int, chars: int, size_kb: float, path: str) -> str:
+    """Generate journal statistics message."""
+    return (
+        f"📊 סטטיסטיקת היומן:\n"
+        f"• {lines} שורות\n"
+        f"• {chars} תווים\n"
+        f"• {size_kb:.2f} KB\n"
+        f"• נתיב: {path}"
+    )
+
+
+# ============================================================================
+# SUMMARY EVENT MESSAGES - הודעות אירועים בסיכום
+# ============================================================================
+
+def summary_event_checkin_yes(time_str: str) -> str:
+    return f"  • {time_str} ✅ ענית שעבדת"
+
+def summary_event_checkin_partial(time_str: str) -> str:
+    return f"  • {time_str} 🤏 ענית שעבדת חלקית"
+
+def summary_event_checkin_no(time_str: str) -> str:
+    return f"  • {time_str} ❌ ענית שלא עבדת"
+
+def summary_event_did(time_str: str, text: str) -> str:
+    return f"  • {time_str} 💪 מה עשית: {text}"
+
+def summary_event_plan(time_str: str, text: str) -> str:
+    return f"  • {time_str} 📋 תכנית: {text}"
+
+def summary_event_first_action(time_str: str, text: str) -> str:
+    return f"  • {time_str} 🚀 פעולה ראשונה: {text}"
+
+def summary_event_fear_reframe(time_str: str, text: str) -> str:
+    return f"  • {time_str} 💙 שינוי מסגור של פחד: {text}"
+
+def summary_event_bullets(time_str: str, text: str) -> str:
+    return f"  • {time_str} 📌 3 נקודות: {text}"
+
+def summary_event_overwhelmed(time_str: str) -> str:
+    return f"  • {time_str} 😰 הרגשת המום/ה - המשימה גדולה מדי"
+
+def summary_event_stuck(time_str: str) -> str:
+    return f"  • {time_str} 🤔 הרגשת תקוע/ה - לא ידעת איך להתחיל"
+
+def summary_event_fear(time_str: str) -> str:
+    return f"  • {time_str} 😨 פחד מכשלון"
+
+def summary_event_big_action_do2(time_str: str) -> str:
+    return f"  • {time_str} ⏱️ הסכמת למשימת 2 דקות"
+
+def summary_event_nudge_scheduled(time_str: str, minutes: str) -> str:
+    return f"  • {time_str} ⏰ תזכורת נקבעה ל-{minutes} דקות"
+
+def summary_event_closed(time_str: str) -> str:
+    return f"  • {time_str} 🏁 סגרת את היום"
+
+def summary_event_continue(time_str: str) -> str:
+    return f"  • {time_str} ▶️ בחרת להמשיך"
+
+def summary_event_free_note(time_str: str, text: str) -> str:
+    return f"  • {time_str} 💭 הערה: {text}"
+
+def summary_fail_count(count: int) -> str:
+    return f"⚠️ נסיונות כושלים: {count}"
+
+
+# ============================================================================
+# LLM PROMPT - English only
+# ============================================================================
+
+LLM_HUMANIZE_PROMPT_EN = """You are a supportive and encouraging personal assistant in Hebrew.
+Your task: Take a bot message and transform it into a human, warm and varied message.
+
+Original message: "{message}"
+{context}
+
+Guidelines:
+- Write in Hebrew only
+- Keep the same content and meaning, but with human variation
+- Add warmth and genuine support
+- Use natural and pleasant conversational style
+- Don't change the meaning or intent
+- Don't add explanations or meta-text
+- If there are emojis in the original message, you can keep them or replace with appropriate ones
+
+Only the processed response, without explanations:"""

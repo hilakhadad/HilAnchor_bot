@@ -1,6 +1,6 @@
 # Deployment Guide
 
-> **Note**: This guide is in English. For Hebrew documentation, see [README.md](README.md).
+> **Note**: This guide is in English. For Hebrew documentation, see [README_HE.md](README_HE.md).
 
 ## Upload to GitHub
 

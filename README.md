@@ -1,146 +1,152 @@
 # HilAnchor Bot 🙂
 
-בוט טלגרם אישי לעקוב אחרי התקדמות היום בצורה עדינה ותומכת.
+A personal Telegram bot for gentle daily progress tracking.
 
-**עברית** | [English](README_EN.md)
+**English** | [עברית](README_HE.md)
 
-## תכונות עיקריות
+## Key Features
 
-- ✅ **מעקב יומי** - צ'ק-אין אוטומטי ב-11:00, 14:00, 17:00
-- 📊 **סיכומים יומיים** - סיכום של כל הפעילות והתקדמות
-- 📓 **יומן אישי** - שמירת מחשבות והרגשות פרטיות
-- 💬 **טקסט חופשי** - אפשרות לשלוח מחשבות בכל רגע
-- 🎯 **ליווי תומך** - עזרה בפירוק משימות גדולות ומעקב אחר התקדמות
-- 🔒 **פרטיות מלאה** - הבוט מוגבל למשתמש אחד בלבד (OWNER_USER_ID)
+- ✅ **Daily Tracking** - Automatic check-ins at 11:00, 14:00, 17:00
+- 📊 **Daily Summaries** - Summary of all activities and progress
+- 📓 **Personal Journal** - Save private thoughts and feelings
+- 💬 **Free Text** - Send thoughts anytime
+- 🎯 **Supportive Coaching** - Help breaking down large tasks and tracking progress
+- 🔒 **Full Privacy** - Bot is limited to a single user (OWNER_USER_ID)
 
-## סביבת הפיתוח
+## Development Environment
 
 - **Python**: 3.9.7
-- **מערכת הפעלה**: Windows
-- **ספריות עיקריות**:
-  - `python-telegram-bot` - ממשק עם Telegram API
-  - `httpx` - בקשות HTTP (תומך proxy)
-  - `python-dotenv` - ניהול משתני סביבה
-  - `pytz` - ניהול אזורי זמן
-  - `ollama` - אינטגרציה עם מודלי LLM (אופציונלי)
+- **Operating System**: Windows
+- **Main Libraries**:
+  - `python-telegram-bot` - Telegram API interface
+  - `httpx` - HTTP requests (proxy support)
+  - `python-dotenv` - Environment variable management
+  - `pytz` - Timezone management
+  - `ollama` - LLM integration (optional)
 
-## התקנה
+## Installation
 
-### 1. שכפול הפרויקט
+### 1. Clone the project
 ```bash
-git clone <repository-url>
+git clone https://github.com/YOUR_USERNAME/HilAnchor_bot.git
 cd HilAnchor_bot
 ```
 
-### 2. יצירת סביבה וירטואלית
+### 2. Create virtual environment
 ```bash
+# Windows
 python -m venv .venv
-.venv\Scripts\activate  # ב-Windows
+.venv\Scripts\activate
+
+# Linux/Mac
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### 3. התקנת תלויות
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. הגדרת קובץ .env
-צור קובץ `.env` בתיקיית הפרויקט עם התוכן הבא:
+### 4. Configure .env file
+Create a `.env` file in the project directory:
 
 ```env
-# חובה - מידע בסיסי
+# Required - Basic Configuration
 BOT_TOKEN=your_telegram_bot_token_here
 OWNER_USER_ID=your_telegram_user_id_here
 
-# אופציונלי - נתיבים מותאמים אישית
+# Optional - Custom paths (defaults shown)
 STATE_PATH=state.json
 JOURNAL_PATH=personal_journal.txt
 
-# אופציונלי - אינטגרציה עם LLM
+# Optional - LLM Integration (Ollama)
 USE_LLM=false
 LLM_MODEL=llama3.2:3b
 
-# אופציונלי - Proxy (אם הרשת חוסמת Telegram)
-PROXY_URL=http://your-proxy:port
+# Optional - Proxy Configuration
+# PROXY_URL=http://your-proxy:port
+# PROXY_URL=socks5://your-proxy:port
 ```
 
-#### איך לקבל BOT_TOKEN?
-1. פתח שיחה עם [@BotFather](https://t.me/botfather) בטלגרם
-2. שלח `/newbot` וענה על השאלות
-3. העתק את ה-TOKEN שתקבל
+#### How to get BOT_TOKEN?
+1. Open chat with [@BotFather](https://t.me/botfather) on Telegram
+2. Send `/newbot` and answer the questions
+3. Copy the TOKEN you receive
 
-#### איך לקבל OWNER_USER_ID?
-1. פתח שיחה עם [@userinfobot](https://t.me/userinfobot)
-2. הבוט ישלח לך את ה-ID שלך
+#### How to get OWNER_USER_ID?
+1. Open chat with [@userinfobot](https://t.me/userinfobot)
+2. The bot will send you your ID
 
-### 5. הרצת הבוט
+### 5. Run the bot
 ```bash
 python run.py
 ```
 
-## פקודות זמינות
+## Available Commands
 
-- `/start` - התחלת הבוט ובחירת מצב היום
-- `/checkin` - צ'ק-אין ידני
-- `/summary` - סיכום היום עד עכשיו
-- `/journal` - קריאת היומן האישי
-- `/journal_add` - הוספת רשומה ליומן האישי
-- `/journal_info` - סטטיסטיקה על היומן
+- `/start` - Start the bot and select day mode
+- `/checkin` - Manual check-in
+- `/summary` - Summary of the day so far
+- `/journal` - Read personal journal
+- `/journal_add` - Add entry to personal journal
+- `/journal_info` - Journal statistics
 
-## יצירת קובץ EXE
+## Creating EXE File
 
-### התקנת PyInstaller
+### Install PyInstaller
 ```bash
 pip install pyinstaller
 ```
 
-### יצירת EXE עם אייקון
+### Create EXE with icon
 ```bash
 pyinstaller --onefile --icon=handshake.ico --name=HilAnchor run.py
 ```
 
-#### פרמטרים:
-- `--onefile` - יוצר קובץ EXE בודד
-- `--noconsole` - מסתיר את חלון הקונסול (אופציונלי, תלוי אם רוצים לראות logs)
-- `--icon=handshake.ico` - מגדיר את האייקון של ה-EXE
-- `--name=HilAnchor` - שם הקובץ הסופי
+#### Parameters:
+- `--onefile` - Creates a single EXE file
+- `--noconsole` - Hides console window (optional, depends if you want to see logs)
+- `--icon=handshake.ico` - Sets the EXE icon
+- `--name=HilAnchor` - Final file name
 
-הקובץ יישמר בתיקייה `dist\HilAnchor.exe`
+The file will be saved in `dist\HilAnchor.exe`
 
-### חשוב לשים לב:
-1. **קובץ .env**: יש להעתיק את קובץ `.env` לאותה תיקייה שבה נמצא ה-EXE
-2. **קבצי State**: הקבצים `state.json` ו-`personal_journal.txt` ייווצרו אוטומטית
-3. **Ollama** (אם USE_LLM=true): צריך להיות מותקן ורץ במחשב
+### Important Notes:
+1. **.env file**: Copy the `.env` file to the same directory as the EXE
+2. **State files**: `state.json` and `personal_journal.txt` will be created automatically
+3. **Ollama** (if USE_LLM=true): Must be installed and running on the machine
 
-## מבנה הפרויקט
+## Project Structure
 
 ```
 HilAnchor_bot/
-├── run.py                    # נקודת כניסה ראשית
-├── handshake.ico            # אייקון הבוט
-├── requirements.txt         # תלויות Python
-├── .env                     # משתני סביבה (לא ב-git)
-├── state.json              # מצב הבוט (נוצר אוטומטית)
-├── personal_journal.txt    # יומן אישי (נוצר אוטומטית)
+├── run.py                    # Main entry point
+├── handshake.ico            # Bot icon
+├── requirements.txt         # Python dependencies
+├── .env                     # Environment variables (not in git)
+├── state.json              # Bot state (created automatically)
+├── personal_journal.txt    # Personal journal (created automatically)
 └── hilanchor/
     ├── __init__.py
-    ├── config.py           # הגדרות ומשתני סביבה
-    ├── auth.py             # אימות משתמשים
-    ├── state_store.py      # ניהול מצב הבוט
-    ├── keyboards.py        # מקלדות אינטראקטיביות
-    ├── messages.py         # כל הודעות הבוט
-    ├── scheduler.py        # משימות מתוזמנות
-    ├── summary.py          # יצירת סיכומים
-    ├── journal.py          # ניהול היומן האישי
-    ├── llm.py             # אינטגרציה עם LLM
-    ├── nudges.py          # תזכורות
+    ├── config.py           # Configuration and environment variables
+    ├── auth.py             # User authentication
+    ├── state_store.py      # Bot state management
+    ├── keyboards.py        # Interactive keyboards
+    ├── messages.py         # All bot messages
+    ├── scheduler.py        # Scheduled tasks
+    ├── summary.py          # Summary generation
+    ├── journal.py          # Personal journal management
+    ├── llm.py             # LLM integration
+    ├── nudges.py          # Reminders
     ├── services/
-    │   └── flow.py        # לוגיקת flow הבוט
+    │   └── flow.py        # Bot flow logic
     └── handlers/
         ├── __init__.py
-        ├── commands.py    # מטפלי פקודות
-        ├── free_text.py   # מטפל טקסט חופשי
-        ├── patterns.py    # דפוסי callback
-        └── callbacks/     # מטפלי כפתורים
+        ├── commands.py    # Command handlers
+        ├── free_text.py   # Free text handler
+        ├── patterns.py    # Callback patterns
+        └── callbacks/     # Button handlers
             ├── mode.py
             ├── worked.py
             ├── noreason.py
@@ -151,28 +157,53 @@ HilAnchor_bot/
 
 ## Proxy Configuration
 
-אם הרשת שלך חוסמת Telegram, תוכל להגדיר Proxy בקובץ `.env`:
+If your network blocks Telegram, you can configure a proxy in `.env`:
 
 ```env
 # HTTP Proxy
 PROXY_URL=http://your-proxy-server:port
 
-# או SOCKS5 Proxy
+# OR SOCKS5 Proxy
 PROXY_URL=socks5://your-proxy-server:port
 ```
 
-## פתרון בעיות נפוצות
+## Common Troubleshooting
 
+### Bot not responding
+- Verify BOT_TOKEN is correct
+- Check internet connection
+- If Telegram is blocked, try configuring a proxy
 
-### LLM לא עובד
-- ודא ש-Ollama מותקן ורץ (`ollama serve`)
-- בדוק שהמודל קיים (`ollama list`)
-- אם לא צריך LLM, השאר `USE_LLM=false`
+### OWNER_USER_ID error
+- Ensure you entered a valid number (digits only)
+- Verify you received the correct ID from @userinfobot
 
-## רישיון
+### LLM not working
+- Verify Ollama is installed and running (`ollama serve`)
+- Check the model exists (`ollama list`)
+- If you don't need LLM, leave `USE_LLM=false`
 
-פרויקט פרטי לשימוש אישי.
+## Deployment
 
-## יצירת קשר
+For detailed deployment instructions to remote servers, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
-לשאלות ובעיות, פנה למפתח הפרויקט.
+Quick start for Linux server:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/HilAnchor_bot.git
+cd HilAnchor_bot
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+nano .env  # Add your BOT_TOKEN and OWNER_USER_ID
+python run.py
+```
+
+## License
+
+Private project for personal use.
+
+## Contact
+
+For questions and issues, please contact the project developer.

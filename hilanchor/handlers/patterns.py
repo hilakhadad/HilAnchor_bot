@@ -1,0 +1,6 @@
+CB_MODE_PATTERN = r"^on_mode_choice:(kid|work)$"
+CB_WORKED_PATTERN = r"^worked:(yes|partial|no)$"
+CB_NO_REASON_PATTERN = r"^noreason:(big|stuck|fear)$"
+CB_YES_NEXT_PATTERN = r"^yesnext:(continue|close)$"
+CB_BIG_ACTION_PATTERN = r"^bigaction:(do2|skip)$"
+CB_NUDGE_PROGRESS_PATTERN = r"^nudge:(yes|partial|no)$"

@@ -3,8 +3,8 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, f
 
 from hilanchor.handlers import (
     start, checkin, summary, journal, journal_add, journal_info, on_free_text,
-    on_mode_choice, on_worked_choice, on_no_reason, on_big_action, on_yes_next, on_nudge_progress,
-    CB_MODE_PATTERN, CB_WORKED_PATTERN, CB_NO_REASON_PATTERN, CB_BIG_ACTION_PATTERN, CB_YES_NEXT_PATTERN, CB_NUDGE_PROGRESS_PATTERN
+    on_mode_choice, on_worked_choice, on_no_reason, on_big_action, on_yes_next, on_nudge_progress, on_timing_choice,
+    CB_MODE_PATTERN, CB_WORKED_PATTERN, CB_NO_REASON_PATTERN, CB_BIG_ACTION_PATTERN, CB_YES_NEXT_PATTERN, CB_NUDGE_PROGRESS_PATTERN, CB_TIMING_PATTERN
 )
 from hilanchor.config import BOT_TOKEN, PROXY_URL
 from hilanchor.scheduler import register_jobs
@@ -58,6 +58,7 @@ app.add_handler(CallbackQueryHandler(on_no_reason, pattern=CB_NO_REASON_PATTERN)
 app.add_handler(CallbackQueryHandler(on_big_action, pattern=CB_BIG_ACTION_PATTERN))
 app.add_handler(CallbackQueryHandler(on_yes_next, pattern=CB_YES_NEXT_PATTERN))
 app.add_handler(CallbackQueryHandler(on_nudge_progress, pattern=CB_NUDGE_PROGRESS_PATTERN))
+app.add_handler(CallbackQueryHandler(on_timing_choice, pattern=CB_TIMING_PATTERN))
 
 logger.info("💬 Registering message handlers...")
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_free_text))

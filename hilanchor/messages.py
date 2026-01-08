@@ -249,6 +249,29 @@ BTN_IN_FLOW = "בזרימה 🌊"
 
 BTN_CONTINUE_10 = "עוד 10 דקות"
 
+# Timing choice buttons
+BTN_TIMING_15 = "15 דק"
+BTN_TIMING_30 = "חצי שעה"
+BTN_TIMING_60 = "שעה"
+BTN_TIMING_NEXT_CHECKIN = "עד הצ'ק-אין הבא 🤫"
+
+# ============================================================================
+# TIMING CHOICE - בחירת זמן לתזכורת
+# ============================================================================
+
+TIMING_CHOICE_QUESTION = """קיבלתי! 💙
+מתי לבדוק איתך שוב?"""
+
+def timing_confirmed(minutes: int) -> str:
+    """Response after user chose timing."""
+    return f"""מעולה! 💙
+אבדוק איתך שוב בעוד {minutes} דקות.
+בהצלחה! 🚀"""
+
+TIMING_NEXT_CHECKIN_CONFIRMED = """מעולה! 💙
+לא אפריע עד הצ'ק-אין הבא.
+בהצלחה! 🚀"""
+
 # ============================================================================
 # IN FLOW MODE - מצב זרימה
 # ============================================================================

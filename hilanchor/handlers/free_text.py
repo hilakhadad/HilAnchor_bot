@@ -5,89 +5,65 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from ..auth import reject_non_owner
-from ..keyboards import kb_yes_next
-from ..state_store import load_state, get_waiting
-from ..services.flow import (
-    record_text_and_close_waiting,
-    record_text_schedule_nudge,
-)
+from ..keyboards import kb_yes_next, kb_timing_choice
+from ..state_store import load_state, get_waiting, save_state, set_last_plan, append_event, clear_waiting
 from ..llm import humanize_message
 from .. import messages as msg
 
 logger = logging.getLogger(__name__)
 
 
+def _save_text_and_ask_timing(state: dict, event_name: str, text: str) -> None:
+    """Save the user's text and prepare to ask for timing choice."""
+    set_last_plan(state, text)
+    append_event(state, event_name, text=text)
+    clear_waiting(state)
+    save_state(state)
+
+
 async def _handle_yes_what_did(update, context, state, text: str):
-    record_text_and_close_waiting(state, event_name="did", text=text)
+    _save_text_and_ask_timing(state, event_name="did", text=text)
     response = humanize_message(
-        msg.YES_WHAT_DID_RECEIVED,
-        context="user shared what they did - asking if continue or close"
+        msg.TIMING_CHOICE_QUESTION,
+        context="user shared what they did - asking when to check in"
     )
-    await update.message.reply_text(response, reply_markup=kb_yes_next())
+    await update.message.reply_text(response, reply_markup=kb_timing_choice())
 
 
 async def _handle_partial_plan(update, context, state, text: str):
-    mins = record_text_schedule_nudge(
-        state=state,
-        context=context,
-        chat_id=update.effective_chat.id,
-        text=text,
-        event_name="plan",
-        default_minutes=30,
-    )
+    _save_text_and_ask_timing(state, event_name="plan", text=text)
     response = humanize_message(
-        msg.plan_received(mins),
-        context=f"scheduled {mins} min nudge for partial work plan"
+        msg.TIMING_CHOICE_QUESTION,
+        context="user shared plan - asking when to check in"
     )
-    await update.message.reply_text(response)
+    await update.message.reply_text(response, reply_markup=kb_timing_choice())
 
 
 async def _handle_no_stuck_first_action(update, context, state, text: str):
-    mins = record_text_schedule_nudge(
-        state=state,
-        context=context,
-        chat_id=update.effective_chat.id,
-        text=text,
-        event_name="first_action",
-        default_minutes=20,
-    )
+    _save_text_and_ask_timing(state, event_name="first_action", text=text)
     response = humanize_message(
-        msg.stuck_received(mins),
-        context=f"user identified first action when stuck - scheduled {mins} min"
+        msg.TIMING_CHOICE_QUESTION,
+        context="user identified first action - asking when to check in"
     )
-    await update.message.reply_text(response)
+    await update.message.reply_text(response, reply_markup=kb_timing_choice())
 
 
 async def _handle_no_fear_reframe(update, context, state, text: str):
-    mins = record_text_schedule_nudge(
-        state=state,
-        context=context,
-        chat_id=update.effective_chat.id,
-        text=text,
-        event_name="fear_reframe",
-        default_minutes=15,
-    )
+    _save_text_and_ask_timing(state, event_name="fear_reframe", text=text)
     response = humanize_message(
-        msg.fear_reframe_received(mins),
-        context=f"user reframed fear - scheduled gentle {mins} min nudge"
+        msg.TIMING_CHOICE_QUESTION,
+        context="user reframed fear - asking when to check in"
     )
-    await update.message.reply_text(response)
+    await update.message.reply_text(response, reply_markup=kb_timing_choice())
 
 
 async def _handle_big_3_bullets(update, context, state, text: str):
-    mins = record_text_schedule_nudge(
-        state=state,
-        context=context,
-        chat_id=update.effective_chat.id,
-        text=text,
-        event_name="bullets",
-        default_minutes=15,
-    )
+    _save_text_and_ask_timing(state, event_name="bullets", text=text)
     response = humanize_message(
-        msg.BULLETS_RECEIVED,
-        context="user wrote 3 bullets - asking to pick one for 5 min start"
+        msg.TIMING_CHOICE_QUESTION,
+        context="user wrote bullets - asking when to check in"
     )
-    await update.message.reply_text(response)
+    await update.message.reply_text(response, reply_markup=kb_timing_choice())
 
 
 async def _handle_journal_add(update, context, state, text: str):

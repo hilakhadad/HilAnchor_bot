@@ -57,3 +57,16 @@ def kb_nudge_progress() -> InlineKeyboardMarkup:
             InlineKeyboardButton(msg.BTN_WORKED_NO, callback_data="nudge:no"),
         ]
     ])
+
+
+def kb_timing_choice() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(msg.BTN_TIMING_15, callback_data="timing:15"),
+            InlineKeyboardButton(msg.BTN_TIMING_30, callback_data="timing:30"),
+            InlineKeyboardButton(msg.BTN_TIMING_60, callback_data="timing:60"),
+        ],
+        [
+            InlineKeyboardButton(msg.BTN_TIMING_NEXT_CHECKIN, callback_data="timing:next"),
+        ]
+    ])

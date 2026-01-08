@@ -1,15 +1,18 @@
 import json
 import datetime as dt
+import zoneinfo
 from pathlib import Path
 from typing import Any, Dict, Optional, Set
 
 from .config import STATE_PATH
 
+ISRAEL_TZ = zoneinfo.ZoneInfo("Asia/Jerusalem")
+
 _STATE_PATH = Path(STATE_PATH)
 
 
 def today_key() -> str:
-    return dt.date.today().isoformat()
+    return dt.datetime.now(ISRAEL_TZ).date().isoformat()
 
 
 def load_state() -> Dict[str, Any]:
@@ -95,14 +98,14 @@ def reset_fail(state: Dict[str, Any]) -> None:
 def set_last_plan(state: Dict[str, Any], text: str) -> None:
     d = day_state(state)
     d["plan"] = text
-    d["plan_ts"] = dt.datetime.now().isoformat(timespec="seconds")
+    d["plan_ts"] = dt.datetime.now(ISRAEL_TZ).isoformat(timespec="seconds")
     save_state(state)
 
 
 def set_worked(state: Dict[str, Any], worked: str) -> None:
     d = day_state(state)
     d["worked"] = worked
-    d["worked_ts"] = dt.datetime.now().isoformat(timespec="seconds")
+    d["worked_ts"] = dt.datetime.now(ISRAEL_TZ).isoformat(timespec="seconds")
     save_state(state)
 
 def _notified_set(state: Dict[str, Any]) -> Set[str]:
@@ -126,7 +129,7 @@ def append_event(state: Dict[str, Any], event_type: str, value: Any = None, text
     d = day_state(state)
 
     ev: Dict[str, Any] = {
-        "ts": dt.datetime.now().isoformat(timespec="seconds"),
+        "ts": dt.datetime.now(ISRAEL_TZ).isoformat(timespec="seconds"),
         "type": event_type,
     }
     if value is not None:

@@ -245,8 +245,17 @@ BTN_BIG_SKIP = "לא עכשיו"
 
 BTN_CONTINUE = "להמשיך עוד קצת"
 BTN_CLOSE = "לסגור להיום"
+BTN_IN_FLOW = "בזרימה 🌊"
 
 BTN_CONTINUE_10 = "עוד 10 דקות"
+
+# ============================================================================
+# IN FLOW MODE - מצב זרימה
+# ============================================================================
+
+IN_FLOW_CONFIRMED = """מעולה! 🌊
+תהני מהזרימה, אני לא אפריע.
+כשתרצי לסגור את היום, שלחי /summary"""
 
 
 # ============================================================================
@@ -333,6 +342,9 @@ def summary_event_closed(time_str: str) -> str:
 
 def summary_event_continue(time_str: str) -> str:
     return f"  • {time_str} ▶️ בחרת להמשיך"
+
+def summary_event_in_flow(time_str: str) -> str:
+    return f"  • {time_str} 🌊 נכנסת לזרימה"
 
 def summary_event_free_note(time_str: str, text: str) -> str:
     return f"  • {time_str} 💭 הערה: {text}"

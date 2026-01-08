@@ -33,7 +33,7 @@ async def _handle_partial_plan(update, context, state, text: str):
         chat_id=update.effective_chat.id,
         text=text,
         event_name="plan",
-        default_minutes=10,
+        default_minutes=30,
     )
     response = humanize_message(
         msg.plan_received(mins),
@@ -49,7 +49,7 @@ async def _handle_no_stuck_first_action(update, context, state, text: str):
         chat_id=update.effective_chat.id,
         text=text,
         event_name="first_action",
-        default_minutes=10,
+        default_minutes=20,
     )
     response = humanize_message(
         msg.stuck_received(mins),
@@ -65,7 +65,7 @@ async def _handle_no_fear_reframe(update, context, state, text: str):
         chat_id=update.effective_chat.id,
         text=text,
         event_name="fear_reframe",
-        default_minutes=5,
+        default_minutes=15,
     )
     response = humanize_message(
         msg.fear_reframe_received(mins),
@@ -75,14 +75,13 @@ async def _handle_no_fear_reframe(update, context, state, text: str):
 
 
 async def _handle_big_3_bullets(update, context, state, text: str):
-    # פה את רוצה תמיד 5 דקות
     mins = record_text_schedule_nudge(
         state=state,
         context=context,
         chat_id=update.effective_chat.id,
         text=text,
         event_name="bullets",
-        default_minutes=5,
+        default_minutes=15,
     )
     response = humanize_message(
         msg.BULLETS_RECEIVED,
@@ -99,9 +98,9 @@ async def _handle_journal_add(update, context, state, text: str):
     success = append_to_journal(text, include_timestamp=True)
 
     if success:
-        await update.message.reply_text("✅ הטקסט נוסף ליומן האישי שלך!")
+        await update.message.reply_text(msg.JOURNAL_ADD_SUCCESS)
     else:
-        await update.message.reply_text("❌ אופס, הייתה בעיה בשמירת הטקסט ליומן.")
+        await update.message.reply_text(msg.JOURNAL_ADD_ERROR)
 
     # Clear waiting state
     set_waiting(state, None)

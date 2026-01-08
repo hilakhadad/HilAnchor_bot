@@ -33,6 +33,9 @@ def kb_yes_next() -> InlineKeyboardMarkup:
         [
             InlineKeyboardButton(msg.BTN_CONTINUE, callback_data="yesnext:continue"),
             InlineKeyboardButton(msg.BTN_CLOSE, callback_data="yesnext:close"),
+        ],
+        [
+            InlineKeyboardButton(msg.BTN_IN_FLOW, callback_data="yesnext:flow"),
         ]
     ])
 

@@ -3,10 +3,11 @@ from telegram.ext import ContextTypes
 
 from ...auth import reject_non_owner
 from ...keyboards import kb_yes_next
+from ...nudges import cancel_existing_nudge
 from ...state_store import (
     load_state, save_state,
     reset_fail, bump_fail,
-    mark_done, set_need_followup, set_waiting
+    mark_done, set_need_followup, set_waiting, append_event
 )
 from ...llm import humanize_message
 from ... import messages as msg
@@ -21,6 +22,16 @@ async def on_nudge_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     _, prog = query.data.split(":", 1)
     state = load_state()
 
+    if prog == "flow":
+        # User is in flow - cancel nudges but don't close the day
+        set_need_followup(state, False)
+        append_event(state, "in_flow", value=True)
+        save_state(state)
+        cancel_existing_nudge(context, query.message.chat_id)
+        text = humanize_message(msg.IN_FLOW_CONFIRMED, context="user is in flow - no interruptions")
+        await query.edit_message_text(text)
+        return
+
     if prog in ("yes", "partial"):
         reset_fail(state)
         save_state(state)
@@ -30,14 +41,19 @@ async def on_nudge_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         else:
             text = humanize_message(
                 msg.NUDGE_PARTIAL_PROGRESS,
-                context="user made partial progress - offering 10 more min or close"
+                context="user made partial progress - offering more time or close"
             )
             await query.edit_message_text(
                 text,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton(msg.BTN_CONTINUE_10, callback_data="yesnext:continue"),
-                    InlineKeyboardButton(msg.BTN_CLOSE, callback_data="yesnext:close"),
-                ]])
+                reply_markup=InlineKeyboardMarkup([
+                    [
+                        InlineKeyboardButton(msg.BTN_CONTINUE_10, callback_data="yesnext:continue"),
+                        InlineKeyboardButton(msg.BTN_CLOSE, callback_data="yesnext:close"),
+                    ],
+                    [
+                        InlineKeyboardButton(msg.BTN_IN_FLOW, callback_data="nudge:flow"),
+                    ]
+                ])
             )
         return
 

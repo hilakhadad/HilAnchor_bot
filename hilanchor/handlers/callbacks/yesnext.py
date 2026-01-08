@@ -30,9 +30,20 @@ async def on_yes_next(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await query.edit_message_text(text)
         return
 
+    if choice == "flow":
+        # User is in flow - cancel nudges but don't close the day
+        set_need_followup(state, False)
+        append_event(state, "in_flow", value=True)
+        save_state(state)
+        cancel_existing_nudge(context, query.message.chat_id)
+        text = humanize_message(msg.IN_FLOW_CONFIRMED, context="user is in flow - no interruptions")
+        await query.edit_message_text(text)
+        return
+
+    # choice == "continue"
     set_need_followup(state, True)
     append_event(state, "continue", value=True)
     save_state(state)
-    text = humanize_message(msg.CONTINUE_30MIN, context="user wants to continue - scheduling 30min check-in")
+    text = humanize_message(msg.CONTINUE_30MIN, context="user wants to continue - scheduling 60min check-in")
     await query.edit_message_text(text)
-    schedule_nudge(context, chat_id=query.message.chat_id, minutes=30)
+    schedule_nudge(context, chat_id=query.message.chat_id, minutes=60)

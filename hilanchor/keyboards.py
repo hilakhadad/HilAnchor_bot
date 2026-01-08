@@ -55,6 +55,9 @@ def kb_nudge_progress() -> InlineKeyboardMarkup:
             InlineKeyboardButton(msg.BTN_WORKED_YES, callback_data="nudge:yes"),
             InlineKeyboardButton(msg.BTN_WORKED_PARTIAL, callback_data="nudge:partial"),
             InlineKeyboardButton(msg.BTN_WORKED_NO, callback_data="nudge:no"),
+        ],
+        [
+            InlineKeyboardButton(msg.BTN_IN_FLOW, callback_data="nudge:flow"),
         ]
     ])
 

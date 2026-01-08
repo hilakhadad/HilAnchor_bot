@@ -1,3 +1,4 @@
+import logging
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ContextTypes
 
@@ -12,6 +13,8 @@ from ...state_store import (
 from ...llm import humanize_message
 from ... import messages as msg
 
+logger = logging.getLogger(__name__)
+
 async def on_nudge_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
@@ -24,12 +27,15 @@ async def on_nudge_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     if prog == "flow":
         # User is in flow - cancel nudges but don't close the day
+        logger.info("🌊 User selected 'in flow' mode from nudge")
         set_need_followup(state, False)
         append_event(state, "in_flow", value=True)
         save_state(state)
         cancel_existing_nudge(context, query.message.chat_id)
         text = humanize_message(msg.IN_FLOW_CONFIRMED, context="user is in flow - no interruptions")
+        logger.info(f"🌊 Sending flow confirmation: {text[:50]}...")
         await query.edit_message_text(text)
+        logger.info("🌊 Flow confirmation sent successfully")
         return
 
     if prog in ("yes", "partial"):
